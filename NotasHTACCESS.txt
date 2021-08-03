@@ -1,0 +1,17 @@
+Redirección => Cambia la petición
+URI ===> Otra URI
+http://misitio.com/login ===> http://misitio.com/home
+
+
+Reescritura => Cambia el archivo que procesa la URI actual
+URI ===> Es la misma
+Pero se procesa con otro archivo...
+
+
+http://misitio.com/producto/10
+
+En vez de procesarse con 
+http://misitio.com/producto/10/index.php
+
+Se procesa con
+http://misitio.com/index.php
