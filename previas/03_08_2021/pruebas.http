@@ -1,0 +1,6 @@
+PATCH http://localhost/php_avanzado_martes/contacto
+
+{
+  "nombre": "Andrea",
+  "id": 1
+}

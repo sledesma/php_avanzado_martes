@@ -1,0 +1,28 @@
+ARQUITECTURA EN PHP
+
+PROGRAMAR EN PHP (o en cualquier leng. back-end) ES PROGRAMAR BAJO HTTP
+
+HyperText Transfer Protocol
+
+Cliente
+  Envia PETICIONES
+  Recibe RESPUESTAS
+Servidor
+  Recibe PETICIONES
+  Envia RESPUESTAS
+
+Una Peticion HTTP tiene:
+* URI
+* METODO
+* CUERPO
+* CABECERAS
+
+El Desarrollo Back-End se ubica en el rol de SERVIDOR.
+
+Las tareas de un back-end son dos:
+  1. RECIBIR PETICIONES
+  2. ENVIAR RESPUESTAS
+
+Nuestro código estará en el MEDIO
+
+Peticion HTTP ========== MI CODIGO ========> Respuesta HTTP
