@@ -18,8 +18,8 @@ class Router {
    * Agregar un par clave / valor a una petición.
    * PRIMERA VERSION: la clave será la URI y el valor será el TEXTO a mostrar
    */
-  public function add($uri, $texto) {
-    $this->dict[$this->prefix.$uri] = $texto;
+  public function add($uri, $callback) {
+    $this->dict['#^'.$this->prefix.$uri.'$#'] = $callback;
   }
 
   /**
@@ -29,7 +29,38 @@ class Router {
   public function handle() {
     $peticion = new Request();
 
-    echo $this->dict[$peticion->getUri()];
+    $founded = false;
+
+    foreach ($this->dict as $pattern => $callback) {
+      if(preg_match($pattern, $peticion->getUri(), $coincidencias)) {
+        array_shift($coincidencias);
+        $callback(
+          $peticion,
+          new Response(),
+          $coincidencias
+        );
+        $founded = true;
+        break;
+      }
+    }
+
+    if(!$founded) {
+      $res = new Response();
+      $res->status(404);
+      die();
+    }
+
+    /*
+    if(isset($this->dict[$peticion->getUri()])) {
+      $accion = $this->dict[$peticion->getUri()]; // Ey ¿Que le corresponde a esta URI?
+      $accion($peticion, new Response());
+    } else {
+      $res = new Response();
+      $res->status(404);
+      die();
+    }
+    */
+
   }
 
 }
