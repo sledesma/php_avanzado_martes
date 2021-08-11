@@ -1,0 +1,9 @@
+Buenas prácticas:
+
+* Centralizar el procesamiento de las peticiones
+  1 - Dirigir todas las peticiones hacia un solo archivo (.htaccess)
+    Redireccionar = CAMBIAR la peticion
+    Reescribir = Procesar LA MISMA PETICION con otro archivo
+  2 - Responder adecuadamente según la petición (PHP)
+    $_SERVER['REQUEST_URI'] => URI actual
+    $_SERVER['REQUEST_METHOD'] => Metodo actual

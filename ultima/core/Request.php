@@ -2,22 +2,20 @@
 
 class Request {
 
+  // Atributos = Variable + Acceso
   private $uri;
   private $method;
-  private $headers;
-  private $body;
 
-  public function __construct($requestInit = []) {
-    $this->uri = isset($requestInit['uri']) ? $requestInit['uri'] : $_SERVER['REQUEST_URI'];
-    $this->method = isset($requestInit['method']) ? $requestInit['method'] : $_SERVER['REQUEST_METHOD'];
-    $this->body = isset($requestInit['body']) ? $requestInit['body'] : file_get_contents('php://input');
-    $this->headers = isset($requestInit['headers']) ? $requestInit['headers'] : apache_request_headers();
+  // Metodos = Funcion + Acceso
+  public function __construct($options = []) {
+    // Se ejecute al inicio y una sola vez
+    $this->uri = isset($options['uri']) ? $options['uri'] : $_SERVER['REQUEST_URI'];
+    $this->method = isset($options['method']) ? $options['method'] : $_SERVER['REQUEST_METHOD'];
+    $this->body = isset($options['body']) ? $options['body'] : file_get_contents('php://input');
   }
 
   public function getUri() { return $this->uri; }
   public function getMethod() { return $this->method; }
-  public function getHeaders() { return $this->headers; }
   public function getBody() { return $this->body; }
 
 }
-

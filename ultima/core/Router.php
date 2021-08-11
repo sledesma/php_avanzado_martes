@@ -1,47 +1,44 @@
 <?php
 
-/**
- * La clase Router seguirá una lógica de Tabla Hash o "Diccionario",
- * en donde las claves son las peticiones contempladas y los valores
- * son las respuestas asociadas a dichas peticiones
- */
 class Router {
 
-  private $dict = [];
-  private $prefix;
+  private $routerDict = [];
 
-  public function __construct($prefix = '') {
-    $this->prefix = $prefix;
+  public function add($method, $uri, $response) {
+    $this->dict[strtoupper($method).'@'.'#^'.$uri.'$#'] = $response;
   }
 
-  /**
-   * Agregar un par clave / valor a una petición.
-   * PRIMERA VERSION: la clave será la URI y el valor será el TEXTO a mostrar
-   */
-  public function add($uri, $callback) {
-    $this->dict['#^'.$this->prefix.$uri.'$#'] = $callback;
-  }
+  public function handle($peticion) {
+    /**
+     * Tomar la petición dada y el diccionario de rutas, y, en base a eso,
+     * definir la respuesta a dar
+     */
 
-  /**
-   * El método Handle procesa la petición actual en base al diccionario
-   * de rutas.
-   */
-  public function handle() {
-    $peticion = new Request();
+     $founded = false;
 
-    $founded = false;
+     foreach ($this->dict as $pattern => $response) {
+      $partes = explode('@',$pattern);
+      $uriActual = $partes[1];
+      $metodoActual = $partes[0]; 
+    
+      if(
+        $metodoActual == $peticion->getMethod() &&
+        preg_match($uriActual, $peticion->getUri(), $coincidencias)
+      ) {
 
-    foreach ($this->dict as $pattern => $callback) {
-      if(preg_match($pattern, $peticion->getUri(), $coincidencias)) {
-        array_shift($coincidencias);
-        $callback(
+        array_shift($coincidencias); // Para borrar el primer elemento
+
+        $response(
           $peticion,
           new Response(),
           $coincidencias
         );
+
         $founded = true;
         break;
+
       }
+      
     }
 
     if(!$founded) {
@@ -50,17 +47,8 @@ class Router {
       die();
     }
 
-    /*
-    if(isset($this->dict[$peticion->getUri()])) {
-      $accion = $this->dict[$peticion->getUri()]; // Ey ¿Que le corresponde a esta URI?
-      $accion($peticion, new Response());
-    } else {
-      $res = new Response();
-      $res->status(404);
-      die();
-    }
-    */
-
   }
+
+
 
 }
